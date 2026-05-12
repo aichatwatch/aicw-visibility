@@ -1,0 +1,42 @@
+{
+  "name": "aicw-visibility",
+  "version": "0.1.0",
+  "description": "AICW Visibility website AI crawler and answer-engine visibility checker",
+  "type": "module",
+  "bin": {
+    "aicw-visibility": "./bin/aicw-visibility.js"
+  },
+  "files": [
+    "bin/",
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node bin/aicw-visibility.js",
+    "package:dry": "npm pack --dry-run",
+    "prepack": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aicw-io/aicw-visibility.git"
+  },
+  "homepage": "https://github.com/aicw-io/aicw-visibility#readme",
+  "bugs": {
+    "url": "https://github.com/aicw-io/aicw-visibility/issues"
+  },
+  "author": "Evgenii Mironichev",
+  "license": "AGPL-3.0-only",
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "puppeteer": "^24.29.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.24",
+    "typescript": "^5.8.3"
+  }
+}
