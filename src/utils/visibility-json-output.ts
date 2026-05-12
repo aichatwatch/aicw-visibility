@@ -7,7 +7,7 @@
 
 import { mkdir, writeFile } from 'fs/promises';
 import { join } from 'path';
-import { BaseVisibilityCheck, PageCaptured, VisibilityCheckResult } from '../actions/ai-visibility/sub/check-base.js';
+import { BaseVisibilityCheck, PageCaptured, VisibilityCheckResult } from '../actions/aicw-visibility/sub/check-base.js';
 import { getUserProjectVisDir, normalizeWebsiteName } from '../config/user-paths.js';
 import { DEFAULT_CHECK_LOCATION } from '../config/constants.js';
 import { logger } from './compact-logger.js';

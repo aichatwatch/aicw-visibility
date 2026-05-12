@@ -8,6 +8,7 @@
   },
   "files": [
     "bin/",
+    "docs/",
     "dist/",
     "README.md",
     "LICENSE"
@@ -28,6 +29,10 @@
   "homepage": "https://github.com/aicw-io/aicw-visibility#readme",
   "bugs": {
     "url": "https://github.com/aicw-io/aicw-visibility/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "author": "Evgenii Mironichev",
   "license": "AGPL-3.0-only",
