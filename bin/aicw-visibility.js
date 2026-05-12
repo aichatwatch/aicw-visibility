@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-import '../dist/actions/ai-visibility/ai-visibility.js';
+import '../dist/actions/aicw-visibility/aicw-visibility.js';
