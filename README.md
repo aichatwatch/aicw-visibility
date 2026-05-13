@@ -1,6 +1,22 @@
 # AICW Visibility
 
-Website AI visibility checker for AI crawlers, answer engines, and public datasets.
+Open-source and free website AI visibility checker for AI crawlers, answer engines, and public datasets. Your data is not shared anywhere, everything runs from your machine.
+
+## Screenshots
+
+![CLI report](docs/imgs/cli-report.png)
+
+![CLI overview](docs/imgs/cli-overview.png)
+
+![JavaScript rendering check](docs/imgs/cli-js-rendering.png)
+
+![HTML report](docs/imgs/html-report.png)
+
+## Video Demo
+
+https://github.com/user-attachments/assets/8b5c2a43-4508-4fcb-9106-c6305c1200f7
+
+## Install
 
 ```bash
 npx aicw-visibility YOUR_WEBSITE_URL
@@ -55,20 +71,6 @@ Example MCP config:
 ```
 
 It exposes `check_visibility`, which runs the same checker and returns the terminal output plus the generated report path.
-
-## Screenshots
-
-![CLI report](docs/imgs/cli-report.png)
-
-![CLI overview](docs/imgs/cli-overview.png)
-
-![JavaScript rendering check](docs/imgs/cli-js-rendering.png)
-
-![HTML report](docs/imgs/html-report.png)
-
-## Video Demo
-
-https://github.com/user-attachments/assets/8b5c2a43-4508-4fcb-9106-c6305c1200f7
 
 ## License
 
