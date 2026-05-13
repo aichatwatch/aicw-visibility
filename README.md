@@ -3,14 +3,14 @@
 Website AI visibility checker for AI crawlers, answer engines, and public datasets.
 
 ```bash
-npx aicw-visibility example.com
+npx aicw-visibility YOUR_WEBSITE_URL
 ```
 
 Or install globally:
 
 ```bash
 npm install -g aicw-visibility
-aicw-visibility example.com
+aicw-visibility YOUR_WEBSITE_URL
 ```
 
 ## Features
@@ -33,7 +33,32 @@ To skip browser rendering checks:
 aicw-visibility example.com --no-browser
 ```
 
+## MCP
+
+AICW Visibility also includes a stdio MCP server for AI agents:
+
+```bash
+npx --yes --package aicw-visibility aicw-visibility-mcp
+```
+
+Example MCP config:
+
+```json
+{
+  "mcpServers": {
+    "aicw-visibility": {
+      "command": "npx",
+      "args": ["--yes", "--package", "aicw-visibility", "aicw-visibility-mcp"]
+    }
+  }
+}
+```
+
+It exposes `check_visibility`, which runs the same checker and returns the terminal output plus the generated report path.
+
 ## Screenshots
+
+![CLI report](docs/imgs/cli-report.png)
 
 ![CLI overview](docs/imgs/cli-overview.png)
 
