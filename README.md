@@ -74,4 +74,4 @@ It exposes `check_visibility`, which runs the same checker and returns the termi
 
 ## License
 
-See [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).
