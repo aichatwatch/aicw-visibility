@@ -15,7 +15,7 @@ import { getCheckGroupWithFallback, CheckGroupInfo, getGroupOrder } from '../con
 
 export const AICW_VISIBILITY_AUTHOR = {
   name: 'AICW Visibility',
-  url: 'https://aicw.io/aicw-visiblity',
+  url: 'https://aichatwatch.com/aicw-visibility/',
 } as const;
 
 /**

@@ -55,7 +55,7 @@ async function checkEdition(domain: string, edition: WikipediaEdition): Promise<
       contextInfo: `Checking Wikipedia ${edition.name}`,
       maxRetries: 1,
       headers: {
-        'User-Agent': 'AICW-Visibility-Check/1.0 (https://aicw.io)'
+        'User-Agent': 'AICW-Visibility-Check/1.0 (https://aichatwatch.com)'
       }
     });
 

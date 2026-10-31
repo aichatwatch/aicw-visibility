@@ -1075,7 +1075,7 @@ async function main(): Promise<void> {
   }
 
   logger.log('='.repeat(80));
-  logger.log(colorize('Thank you for using AICW Visibility. Visit https://www.aicw.io for more tools.', 'dim'));
+  logger.log(colorize('Thank you for using AICW Visibility. Visit https://aichatwatch.com for more tools.', 'dim'));
   logger.log('='.repeat(80));
 
   // Wait for Enter in interactive mode
