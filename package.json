@@ -1,6 +1,6 @@
 {
   "name": "aicw-visibility",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "AICW Visibility website AI crawler and answer-engine visibility checker",
   "type": "module",
   "bin": {
@@ -26,11 +26,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/aicw-io/aicw-visibility.git"
+    "url": "https://github.com/aichatwatch/aicw-visibility.git"
   },
-  "homepage": "https://github.com/aicw-io/aicw-visibility#readme",
+  "homepage": "https://github.com/aichatwatch/aicw-visibility#readme",
   "bugs": {
-    "url": "https://github.com/aicw-io/aicw-visibility/issues"
+    "url": "https://github.com/aichatwatch/aicw-visibility/issues"
   },
   "publishConfig": {
     "access": "public",

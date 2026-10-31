@@ -51,7 +51,7 @@ export class CheckIndexingSocialReddit extends BaseVisibilityCheck {
       searchUrl.searchParams.set('type', 'link'); // search for posts, not comments
 
       const response = await callHttpWithRetry(searchUrl.toString(), {
-        userAgent: 'Mozilla/5.0 (compatible; AICW-Visibility-Check/1.0; +https://aicw.io)',
+        userAgent: 'Mozilla/5.0 (compatible; AICW-Visibility-Check/1.0; +https://aichatwatch.com)',
         headers: {
           'Accept': 'application/json',
           'Accept-Language': 'en-US,en;q=0.9'

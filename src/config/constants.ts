@@ -5,7 +5,7 @@ export const MAX_BRANDS_IN_REPORT = 5000;
 
 /** Maximum number of source domains to show in static report table */
 export const MAX_SOURCES_IN_REPORT = 5000;
-export const AICW_GITHUB_URL = 'https://github.com/aicw-io/aicw-ai-mentions';
+export const AICW_GITHUB_URL = 'https://github.com/aichatwatch/aicw-ai-mentions';
 export const CITATION_HEADER = '# CITATIONS';
 export const CITATION_ITEM_FORMAT_WITH_URL = '{{INDEX}}. [{{TITLE}}]({{URL}})';
 
