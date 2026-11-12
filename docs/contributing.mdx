@@ -1,0 +1,69 @@
+---
+title: "Contributing"
+description: "Report a bug, build AICW Visibility from source, and find the license."
+---
+
+## Report a bug or ask a question
+
+Open an issue in the [GitHub repository](https://github.com/aichatwatch/aicw-visibility/issues). Add the version of the tool, the command that you ran, and the output.
+
+For other contact, see [AI Chat Watch](https://aichatwatch.com/quote).
+
+## Build from source
+
+You need Node.js 18 or later.
+
+Clone the repository:
+
+```sh
+git clone https://github.com/aichatwatch/aicw-visibility.git
+```
+
+Go into the folder:
+
+```sh
+cd aicw-visibility
+```
+
+Install the dependencies:
+
+```sh
+npm install
+```
+
+Build the TypeScript code. The `tsc` compiler writes the result to the `dist` folder:
+
+```sh
+npm run build
+```
+
+The commands `aicw-visibility` and `aicw-visibility-mcp` load the code from `dist`. If you change the code in `src`, build again.
+
+Run the checker from the folder:
+
+```sh
+npm start -- example.com
+```
+
+Run the MCP server from the folder:
+
+```sh
+npm run mcp
+```
+
+## Where the code is
+
+| Path | Content |
+|---|---|
+| `bin/` | The two command entry files. |
+| `src/actions/aicw-visibility/` | The checker, the weights of the checks, and the todo texts. |
+| `src/actions/aicw-visibility/sub/` | One file for each check. |
+| `src/config/ai-user-agents.ts` | The list of AI crawlers and AI products. |
+| `src/config/visibility-check-groups.ts` | The groups that the report uses. |
+| `src/mcp-server.ts` | The MCP server. |
+
+The repository has no automated tests in this version.
+
+## License
+
+AICW Visibility is released under the MIT license. See the `LICENSE` file in the repository.

@@ -1,0 +1,58 @@
+---
+title: "JavaScript rendering"
+description: "How the JS Rendering check compares your raw HTML with the page that a browser shows, and how to fix a low ratio."
+---
+
+Many AI crawlers read the HTML that the server sends. They do not always run JavaScript. If your page builds its text with JavaScript, a crawler may see only a small part of the page.
+
+The check "Content: JS Rendering" measures this. It has the largest weight of all page checks (16 points).
+
+## How the check works
+
+For each page, the tool does these steps:
+
+1. It fetches the HTML twice, with a desktop user-agent and with a mobile user-agent. This is the HTML that a crawler gets without JavaScript.
+2. It opens the page in a headless Chrome browser. Headless means that the browser has no window. The tool waits until the network is quiet, then waits 2 more seconds so that JavaScript can render.
+3. It reads the visible text of the page at a desktop window size (1280 by 800) and at a mobile window size (375 by 667).
+4. It removes scripts, styles, comments and `noscript` blocks from the raw HTML, and counts the text characters.
+5. It divides the raw-HTML text length by the browser text length. The result is the JS content ratio for desktop and for mobile.
+6. The ratio of the check is the average of the desktop ratio and the mobile ratio.
+
+The page load in the browser has a time limit of 30 seconds.
+
+<Frame>
+  <img src="/imgs/cli-js-rendering.png" alt="Terminal output of the JS Rendering check with the desktop and mobile character counts" />
+</Frame>
+
+## Score and grade
+
+The score of the check is the average ratio as a percentage of the 16 points. The check passes at 50 percent or more.
+
+| Average ratio | Grade of the check |
+|---|---|
+| 90 percent or more | excellent |
+| 50 to 89 percent | good |
+| 20 to 49 percent | warning |
+| Under 20 percent | critical |
+
+If the ratio is under 50 percent, the tool adds a warning. It says that AI bots see only that share of your content, and it suggests server-side rendering.
+
+## How to fix a low ratio
+
+- Render the main text on the server. This is server-side rendering (SSR).
+- Or build the pages as static HTML at build time.
+- Put headings, text, lists and tables in the first HTML response.
+- Test your page with JavaScript turned off in the browser. The text that you still see is the text that a crawler can read.
+
+## When the check does not run
+
+The tool skips this check and removes it from the score in these cases:
+
+- You use `--no-browser`.
+- The tool cannot start the browser. The tool then prints a warning and the command `npx puppeteer browsers install chrome`. See [Install](/install).
+
+If the check fails, it shows an error. This happens, for example, when the page does not finish loading in 30 seconds, or when the desktop or mobile HTML is missing. An error gives no points, and the maximum still counts.
+
+<Note>
+The browser loads your page like a visitor does. Your own page scripts run, and they may call other hosts. Those requests come from your page, not from the tool.
+</Note>

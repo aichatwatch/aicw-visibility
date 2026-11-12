@@ -1,0 +1,137 @@
+---
+title: "What it checks"
+description: "Every check in AICW Visibility, grouped as in the report, with what each one tests and how to fix a low result."
+---
+
+The tool has two levels of checks:
+
+- Server checks run once for each host name. They test your domain as a whole.
+- Page checks run once for each URL that you give. They test one page.
+
+The report groups the checks as shown below. The check names in the tables are the names that the tool prints.
+
+With the default settings, the tool runs 14 server checks and 7 page checks for each page. With `--no-browser`, it runs 6 page checks. If you turn on the search engine checks, it runs 3 more page checks. The weight of each check is on the page [Reading the score](/reading-the-score).
+
+## Server checks
+
+### Config
+
+| Check | What it tests | How to fix |
+|---|---|---|
+| Config: robots.txt | Reads `/robots.txt`. The `robots.txt` file tells crawlers which paths they may visit. The tool checks if the file blocks any of the 20 [AI crawlers](/ai-crawlers) with `Disallow: /`. The score depends on how many of the 12 AI products still have at least one crawler that is not blocked. If the file does not exist, all crawlers are allowed and the check gets full points. | If a crawler is blocked on purpose, no fix is needed. If not, remove the `Disallow: /` rule for that crawler, or add an `Allow: /` rule for it. Also check your firewall. A firewall can block crawlers even when `robots.txt` allows them. |
+| Config: sitemap.xml | Reads `/sitemap.xml`. A sitemap is an XML file that lists the pages of your site. The check passes if the file is valid XML, has a `urlset` or `sitemapindex` tag, and lists at least one entry. | Publish a sitemap at `/sitemap.xml`. Add the `Sitemap:` line to `robots.txt`. Submit the sitemap to Google Search Console, Bing Webmaster Tools, and Brave. |
+
+The tool only reads `/sitemap.xml`. If your sitemap has another name, the check does not find it.
+
+The tool reads `robots.txt` with a simple parser. Keep these points in mind:
+
+- It uses only the rules for `*` and for the exact crawler name.
+- It looks only at rules for the root path (`/`). Rules for other paths do not change the result.
+- It treats an empty `Disallow:` line like `Disallow: /`, unless an `Allow: /` line follows it.
+
+### AI Access
+
+These three checks request your homepage with the user-agent of each crawler. A crawler counts as able to read the page if the server answers with HTTP 200 and at least 500 bytes of content.
+
+| Check | What it tests | How to fix |
+|---|---|---|
+| AI Access: Training Data | Tests the 6 crawlers that collect data to train AI models. | Allow the crawlers in `robots.txt`. Check your firewall, CDN and bot protection rules. |
+| AI Access: Search Indexing | Tests the 6 crawlers that build the search indexes of AI products. | Same as above. |
+| AI Access: User Interactions | Tests the 8 crawlers that fetch a page when a user asks an AI product a question. | Same as above. |
+
+An AI product counts as visible if at least one crawler that is linked to it can read the page. See [AI crawlers](/ai-crawlers) for the list.
+
+### Headers
+
+| Check | What it tests | How to fix |
+|---|---|---|
+| Headers: X-Robots-Tag | Reads the HTTP headers of your homepage. The `X-Robots-Tag` header is a rule that your server sends together with a page. The check fails if the header has `noindex`, `noai`, `noimageai` or `nosnippet`. | Remove those values from the `X-Robots-Tag` header in your server or CDN settings. |
+
+### Indexing
+
+These checks look for your domain in public sources. The tool sends your host name to each source. See [Data and privacy](/data-and-privacy).
+
+| Check | What it tests | How to fix |
+|---|---|---|
+| Indexing: llms.txt | Reads `/llms.txt`. The `llms.txt` file is a text file that describes your site for language models. The check passes if the file exists and is not empty. | Create a `/llms.txt` file. See llmstxt.org for the format. This file is a new convention and the weight of this check is low. |
+| Indexing: Wikipedia | Asks six Wikipedia language editions (English, German, French, Spanish, Japanese, Chinese) for pages that link to your host name. The score is the share of editions with at least one link. | Earn real mentions from independent sources. Do not edit Wikipedia pages about your own company. |
+| Social: Stack Overflow | Searches Stack Overflow for your host name. The score grows with the number of results that the search returns. | Answer questions on Stack Overflow where your documentation helps. Follow the site rules for links. |
+| Social: Reddit | Searches Reddit posts for `url:` and `site:` matches of your host name. The tool reads up to 25 posts. | Take part in relevant communities. Follow the rules of each community. |
+| Indexing: Common Crawl | Searches the Common Crawl indexes for any page of your domain. Common Crawl is a public archive of web pages. Many AI companies use it as training data. The tool checks up to 6 indexes from the last 6 months. The score is the share of indexes with a match. | Allow the CCBot crawler in `robots.txt`. Keep your URLs stable. Link your pages to each other. |
+
+### Performance
+
+| Check | What it tests | How to fix |
+|---|---|---|
+| Performance: Time-To-First-Byte (TTFB) | Measures how long the server takes to answer a request for the homepage. TTFB means time to first byte. Under 200 ms gets full points. Under 500 ms gets 75 percent. Under 1000 ms gets 50 percent. A slower answer gets 25 percent. | Use caching or a CDN. Speed up your server code and database. |
+| Performance: Homepage Response | Measures the time to download your homepage with a desktop user-agent and with a mobile user-agent. Each device is worth half of the points. | Reduce the size of the HTML. Use compression. Use caching or a CDN. |
+
+The speed scale for the response checks is in the table below.
+
+| Download time | Share of the device points |
+|---|---|
+| Under 500 ms | 100 percent |
+| Under 1000 ms | 80 percent |
+| Under 2000 ms | 60 percent |
+| Under 3000 ms | 40 percent |
+| 3000 ms or more | 20 percent |
+
+## Page checks
+
+### Content
+
+| Check | What it tests | How to fix |
+|---|---|---|
+| Content: Meta Tags | Looks in the HTML for `robots` meta tags and for meta tags that name one of the 20 crawlers. The check looks for `noindex`, `noai`, `noimageai` and `nosnippet`. A `robots` tag with one of these values removes all points. | Remove the blocking value from the meta tag. |
+| Content: JSON-LD Schema | Reads each JSON-LD block in the HTML. JSON-LD is structured data in a `script` tag that tells machines what the page is about. The score grows with the number of schema types, up to 3. Types that AI systems favor give a small bonus: FAQPage, QAPage, Article, NewsArticle, BlogPosting, HowTo and Recipe. | Add valid JSON-LD. Use Organization and WebSite on the homepage. Use Article, FAQPage or HowTo on content pages. |
+| Content: JS Rendering | Compares the text in your raw HTML with the text that a browser shows after JavaScript runs. See [JavaScript rendering](/javascript-rendering). | Render the main content on the server, or at build time. |
+| Content: HTML Structure | Runs 12 equal tests on the HTML. See the list below. | Fix each missing item that the report lists. |
+
+The tool reads only the top-level `@type` of each JSON-LD block. If you put schemas inside an `@graph` list, the tool does not count them.
+
+The HTML Structure check tests these 12 items:
+
+1. At least 1 `h1` tag.
+2. At least 5 `h2` or `h3` tags together.
+3. A meta description.
+4. An Open Graph title (`og:title`). Open Graph tags tell other services how to show your page.
+5. An Open Graph description (`og:description`).
+6. An Open Graph image (`og:image`) with a full `http` or `https` address.
+7. A canonical link. A canonical link names the main address of the page.
+8. A `lang` attribute on the `html` tag.
+9. At least 1 list (`ul` or `ol`).
+10. At least 1 table.
+11. No images with `loading="lazy"`. Each such image lowers the score. Five or more give zero points for this item.
+12. Alt text on the images. The score is the share of images with alt text. Pages with no images get full points for this item.
+
+The tool matches these tags with fixed patterns. For meta tags it expects the `name` or `property` attribute before the `content` attribute. If your tags use another order, the tool may report them as missing.
+
+### Headers
+
+| Check | What it tests | How to fix |
+|---|---|---|
+| Headers: X-Robots-Tag | Reads the HTTP headers of the page and looks for the same blocking values as the server check. | Remove `noindex`, `noai`, `noimageai` and `nosnippet` from the header. |
+
+### Indexing
+
+| Check | What it tests | How to fix |
+|---|---|---|
+| Indexing: Common Crawl | Searches the Common Crawl indexes for this exact URL. The tool removes the protocol and tracking parameters from the URL first. It checks up to 6 indexes from the last 6 months. | Put the page in your sitemap. Link to it from other pages. Allow the CCBot crawler. |
+
+### Optional search engine checks
+
+These checks are off by default. To turn them on, set `AICW_ENABLE_SEARCH_ENGINE_CHECKS=true`. See the [CLI reference](/cli#environment-variables).
+
+| Check | What it tests | How to fix |
+|---|---|---|
+| Indexing: Google | Opens a Google search for `site:` and your host name. The check passes if the results page shows results. | Add your site to Google Search Console. Submit your sitemap. |
+| Indexing: Bing | The same test on Bing. | Add your site to Bing Webmaster Tools. |
+| Indexing: Brave | The same test on Brave Search. | Submit your site to Brave. Allow the Bravebot crawler. |
+
+Search engines often block automated requests with a CAPTCHA. If that happens, the check cannot decide and reports a failure. The result then says nothing about your site.
+
+### Performance
+
+| Check | What it tests | How to fix |
+|---|---|---|
+| Performance: Response Time | Measures the download time of the page with a desktop and a mobile user-agent. It uses the same speed scale as the homepage check. | Reduce the HTML size. Use compression, caching or a CDN. |

@@ -1,0 +1,90 @@
+---
+title: "AI crawlers"
+description: "The list of 20 AI crawlers that AICW Visibility tests, grouped by purpose, and the 12 AI products that it reports on."
+---
+
+AICW Visibility tests 20 crawlers. A crawler is a program that visits web pages. Each crawler sends a user-agent, which is a name that identifies it. The tool groups the crawlers by what they do.
+
+## How the tool tests a crawler
+
+The tool tests crawlers in two ways:
+
+- The robots.txt check reads your `robots.txt` file. It looks for rules that name the crawler.
+- The three AI Access checks request your homepage with the real user-agent string of each crawler. A crawler can read the page if the server answers with HTTP 200 and at least 500 bytes of content.
+
+<Note>
+The tool does not run the real crawlers. It only sends requests that use their user-agent names. A firewall that checks crawler IP addresses may treat the real crawler differently. The result of the tool is a good sign, but it is not proof.
+</Note>
+
+## Training crawlers
+
+These crawlers collect content that may be used to train AI models. The check is "AI Access: Training Data".
+
+| Crawler name in robots.txt | Display name in the tool |
+|---|---|
+| `CCBot` | CommonCrawl Dataset |
+| `GPTBot` | ChatGPT Crawler |
+| `ClaudeBot` | Claude Foundation Model Training Bot |
+| `Google-Extended` | Google Foundation Model Training Bot |
+| `Google-CloudVertexBot` | Google Vertex AI Agents Bot |
+| `Meta-ExternalAgent` | Meta External Agent |
+
+## Search crawlers
+
+These crawlers build the search indexes of AI products. The check is "AI Access: Search Indexing".
+
+| Crawler name in robots.txt | Display name in the tool |
+|---|---|
+| `OAI-SearchBot` | ChatGPT Internet Search Bot |
+| `PerplexityBot` | Perplexity Internet Search Bot |
+| `Claude-SearchBot` | Claude Internet Search Bot |
+| `Bravebot` | Brave Search Crawler |
+| `Bingbot` | Bing Search Crawler |
+| `Meta-WebIndexer` | Meta Web Indexer |
+
+## User interaction crawlers
+
+These crawlers fetch a page when a user asks an AI product a question or shares a link. The check is "AI Access: User Interactions".
+
+| Crawler name in robots.txt | Display name in the tool |
+|---|---|
+| `ChatGPT-User` | ChatGPT User Interaction Bot |
+| `Perplexity-User` | Perplexity User Interaction Bot |
+| `Claude-User` | Claude User Interaction Bot |
+| `FacebookExternalHit` | Meta External Hit |
+| `Meta-ExternalFetcher` | Meta External Fetcher |
+| `Deepseek` | Deepseek User Interaction Bot |
+| `MistralAI-User` | MistralAI User Interaction Bot |
+| `DuckAssistBot` | DuckAssistBot User Interaction Bot |
+
+## AI products
+
+The tool reports its result for 12 AI products:
+
+- OpenAI ChatGPT
+- Anthropic Claude
+- Google Gemini
+- Google AI Mode/AI Overviews
+- Brave Search
+- Bing Search
+- Meta AI
+- Perplexity AI
+- Grok AI
+- Meta Llama
+- DeepSeek
+- DuckDuckGo
+
+Each crawler is linked to one or more of these products in the tool. For example, the CCBot crawler is linked to all 12 products, because Common Crawl data is used widely.
+
+A product counts as visible when at least one crawler that is linked to it is not blocked. The score of the AI Access checks and of the robots.txt check is the share of visible products, times the weight of the check.
+
+## Allow a crawler
+
+To allow a crawler in `robots.txt`, add its name and an `Allow` rule. Example for GPTBot:
+
+```text
+User-agent: GPTBot
+Allow: /
+```
+
+If you block a crawler on purpose, you do not need to change anything. The score will be lower, and that is expected.

@@ -1,0 +1,65 @@
+---
+title: "Reading the report"
+description: "How to read the terminal output and the HTML report that AICW Visibility writes."
+---
+
+Each run gives you two views of the same result: the terminal output and a local HTML report.
+
+## Terminal output
+
+While the checks run, the tool prints one line for each check. A line shows an icon, the check name, the score, and a short detail text.
+
+| Icon | Meaning |
+|---|---|
+| `✓` | The check passed. |
+| `⚠` | The check did not pass. It lost points. |
+| `❌` | The check failed with an error. It shows `ERR` instead of a score. |
+
+<Frame>
+  <img src="/imgs/cli-report.png" alt="Terminal output of a check with one line for each check" />
+</Frame>
+
+At the end, the tool prints a summary:
+
+- `TOTAL SCORE` and `GRADE`.
+- The score of each server and each page, and the `Formula:` line. See [Reading the score](/reading-the-score).
+- `DETAILS`, with `[PASS]`, `[WARN]` or `[FAIL]` for each check.
+- `ISSUES`, with each check that did not pass. A warning shows how many points the check lost.
+- The path of the report and the command to open it.
+
+<Frame>
+  <img src="/imgs/cli-overview.png" alt="Terminal summary with the total score, grade and list of checks" />
+</Frame>
+
+## HTML report
+
+The tool writes the report as `index.html` in your data folder. See [CLI reference](/cli#where-the-files-go) for the exact path. The report has these parts:
+
+- The total score and the grade.
+- A table of the server checks, with the status, the score and the details.
+- A table for each page.
+- An AI Services table. It shows each AI product, if it is reachable, and the crawlers that were tested.
+- A list of todo items. Each item has a priority (`critical`, `high`, `medium` or `low`), a description and steps to fix the problem.
+- A link to the JSON file of the run.
+
+<Frame>
+  <img src="/imgs/html-report.png" alt="HTML report with the score, tables of checks and todo items" />
+</Frame>
+
+Each run replaces `index.html`. The JSON files stay, so you can keep a history of runs.
+
+## JSON file
+
+For each run, the tool also writes a file named `<date>-<timestamp>-data.json`. It has the score, the grade, the result of each check with its sub-checks, the AI services, and the todo items. Use it to compare runs or to process the result with your own scripts.
+
+## Open the report
+
+The last lines of the terminal output show the open command for your system:
+
+| System | Command |
+|---|---|
+| macOS | `open` |
+| Windows | `start` |
+| Linux and others | `xdg-open` |
+
+Copy the `Open with:` line from the terminal output. It already has the right path.
