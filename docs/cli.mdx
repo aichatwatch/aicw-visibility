@@ -1,0 +1,96 @@
+---
+title: "CLI reference"
+description: "All arguments, the flag, the environment variables, and the output files of the aicw-visibility command."
+sidebarTitle: "CLI"
+---
+
+## Usage
+
+```sh
+aicw-visibility [URL] [--no-browser]
+```
+
+If you use `npx`, put `npx` before the command:
+
+```sh
+npx aicw-visibility example.com
+```
+
+## Arguments
+
+| Argument | What it does |
+|---|---|
+| `URL` | The website or page to check. You can use a domain, such as `example.com`, or a full URL. If you leave out the protocol, the tool adds `https://`. |
+| `--no-browser` | Skips the JavaScript rendering check. The tool does not start a browser. It leaves that check out of the score. |
+
+The tool has no other flags. It ignores any other argument that starts with a dash.
+
+## No URL given
+
+If you give no URL, the tool shows a notice. The notice says that by continuing you confirm that you have the permissions to test the URL. Then it asks for the URL. Press Ctrl+C to cancel.
+
+If you give no URL and no answer, the tool prints `No URL provided` and stops with exit code 1.
+
+## Several URLs
+
+Separate URLs with commas in one argument. Use quotes if the shell needs them.
+
+```sh
+aicw-visibility "https://example.com/,https://example.com/pricing"
+```
+
+The tool follows these rules:
+
+- All URLs must belong to the same root domain. If they do not, the tool prints an error and stops.
+- The tool runs the server checks once for each host name.
+- The tool runs the page checks once for each URL.
+- If the tool cannot fetch a page, it skips that page and continues.
+
+## Environment variables
+
+Set these variables before you run the command.
+
+| Variable | Default | What it does |
+|---|---|---|
+| `AICW_ENABLE_SEARCH_ENGINE_CHECKS` | Off | If the value is `true`, the tool also runs the Google, Bing and Brave indexing checks. Any other value keeps them off. |
+| `AICW_DATA_FOLDER` | A folder for your system (see below) | The folder where the tool writes reports and logs. The folder must exist. If it does not, the tool prints an error and stops. |
+| `AICW_VERBOSITY` | `normal` | Sets how much the tool prints. Allowed values: `minimal`, `normal`, `verbose`. |
+
+To turn on the search engine checks on macOS or Linux, set the variable in the same line as the command:
+
+```sh
+AICW_ENABLE_SEARCH_ENGINE_CHECKS=true aicw-visibility example.com
+```
+
+Search engines often show a CAPTCHA or block automated requests. The tool prints a note about this. See [What it checks](/what-it-checks#optional-search-engine-checks).
+
+The tool also accepts `debug` and `trace` as values for `AICW_VERBOSITY`. It treats them as `verbose`. It treats `error` and `warn` as `minimal`.
+
+## Where the files go
+
+If you do not set `AICW_DATA_FOLDER`, the tool uses this folder:
+
+| System | Default data folder |
+|---|---|
+| macOS | `~/Library/Application Support/aicw` |
+| Windows | `%APPDATA%\aicw` |
+| Linux | `$XDG_CONFIG_HOME/aicw`, or `~/.config/aicw` if that variable is not set |
+
+Inside the data folder, the tool writes these files:
+
+| Path | Content |
+|---|---|
+| `aicw-visibility/<host>/index.html` | The HTML report. Each new run replaces this file. |
+| `aicw-visibility/<host>/<date>-<timestamp>-data.json` | The JSON data of one run. Each run adds a new file. |
+| `logs/<date>/aicw-visibility.log` | The log of the run. |
+
+`<host>` is the host name in lowercase, without `www.`.
+
+## Exit codes
+
+| Code | Meaning |
+|---|---|
+| `0` | The run finished. |
+| `1` | The tool stopped with an error, for example: no URL, an invalid URL, URLs from different root domains, or a data folder that does not exist. |
+
+A low score does not change the exit code.

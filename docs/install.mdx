@@ -1,0 +1,56 @@
+---
+title: "Install"
+description: "Install AICW Visibility with npx or npm, and install the Chrome browser that Puppeteer needs."
+---
+
+## Requirements
+
+- Node.js 18 or later.
+- The Chrome browser that Puppeteer uses. Puppeteer is a Node.js library that controls a browser. The tool uses it for the JavaScript rendering check.
+
+## Run without installing
+
+The `npx` command downloads the package and runs it. You do not install anything globally.
+
+```sh
+npx aicw-visibility example.com
+```
+
+## Install globally
+
+To install the command on your computer, run this command:
+
+```sh
+npm install -g aicw-visibility
+```
+
+Then run the tool by its name:
+
+```sh
+aicw-visibility example.com
+```
+
+The package adds two commands:
+
+- `aicw-visibility` is the checker. See the [CLI reference](/cli).
+- `aicw-visibility-mcp` is the MCP server for AI agents. See [MCP server](/mcp-server).
+
+## Install Chrome for Puppeteer
+
+The package depends on Puppeteer. If Puppeteer's Chrome is not on your computer, the tool cannot run the JavaScript rendering check. In that case the tool prints this warning: `Could not launch browser`. It then skips that check and removes it from the score.
+
+To install the browser, run this command:
+
+```sh
+npx puppeteer browsers install chrome
+```
+
+Run the tool again after the install finishes.
+
+<Tip>
+If you do not want to install Chrome, run the tool with `--no-browser`. All other checks still run.
+</Tip>
+
+## Install from source
+
+If you want to change the code, see [Contributing](/contributing).

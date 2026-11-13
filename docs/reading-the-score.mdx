@@ -1,0 +1,91 @@
+---
+title: "Reading the score"
+description: "How AICW Visibility builds the score from 0 to 100, the letter grades, and the weight of each check."
+---
+
+The tool gives one total score from 0 to 100 and one letter grade.
+
+## How the total is built
+
+1. Each check has a maximum number of points. These numbers are the weights in the tables below.
+2. For each host name, the tool adds the points of the server checks. It divides this number by the maximum and multiplies by 100. This is the server score from 0 to 100.
+3. For each page, the tool does the same with the page checks. This is the page score from 0 to 100.
+4. The total score is the average of all server scores and all page scores.
+
+The tool prints the formula in the `Formula:` line of the summary. Example for one host and two pages:
+
+```text
+(80.0 + 90.0 + 70.0) / 3 = 80.0
+```
+
+If you check one host and one page, the server score and the page score each count for half of the total.
+
+<Note>
+If a check ends with an error, it gives no points, but its maximum still counts. A check that the tool skips on purpose, such as the JavaScript check with `--no-browser`, is removed from the maximum.
+</Note>
+
+## Letter grades
+
+The tool rounds the total score to a whole number. Then it picks the grade:
+
+| Score | Grade |
+|---|---|
+| 97 to 100 | A+ |
+| 93 to 96 | A |
+| 90 to 92 | A- |
+| 87 to 89 | B+ |
+| 83 to 86 | B |
+| 80 to 82 | B- |
+| 77 to 79 | C+ |
+| 73 to 76 | C |
+| 70 to 72 | C- |
+| 67 to 69 | D+ |
+| 63 to 66 | D |
+| 60 to 62 | D- |
+| Under 60 | F |
+
+In the terminal, the grade is green at 80 or more, yellow at 50 or more, and red below 50.
+
+## Weight of each server check
+
+| Check | Maximum points |
+|---|---|
+| Config: robots.txt | 200 |
+| Config: sitemap.xml | 80 |
+| AI Access: Training Data | 50 |
+| AI Access: Search Indexing | 40 |
+| AI Access: User Interactions | 30 |
+| Indexing: Wikipedia | 25 |
+| Performance: Time-To-First-Byte (TTFB) | 20 |
+| Social: Stack Overflow | 20 |
+| Social: Reddit | 20 |
+| Indexing: llms.txt | 5 |
+| Headers: X-Robots-Tag | 5 |
+| Performance: Homepage Response | 3 |
+| Indexing: Common Crawl | 2 |
+
+The server checks add up to 500 points. Access for AI crawlers (robots.txt and the three AI Access checks) has the largest weight.
+
+## Weight of each page check
+
+| Check | Maximum points |
+|---|---|
+| Content: JS Rendering | 16 |
+| Headers: X-Robots-Tag | 10 |
+| Content: Meta Tags | 8 |
+| Content: JSON-LD Schema | 5 |
+| Content: HTML Structure | 5 |
+| Performance: Response Time | 4 |
+| Indexing: Common Crawl | 2 |
+
+The page checks add up to 50 points. Without the browser check, they add up to 34 points.
+
+## Search engine checks
+
+The Google, Bing and Brave checks are off by default. They do not count in the score unless you turn them on with `AICW_ENABLE_SEARCH_ENGINE_CHECKS=true`.
+
+## What a low score means
+
+A low score does not always mean a problem. If you block a crawler on purpose, the checks that test that crawler lose points. Read the `ISSUES` list and decide for each item if you want to fix it.
+
+The score tests technical access. It does not tell you if an AI product will mention your brand.

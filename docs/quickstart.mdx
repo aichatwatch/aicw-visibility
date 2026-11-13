@@ -1,0 +1,55 @@
+---
+title: "Quickstart"
+description: "Run your first AICW Visibility check and open the report."
+---
+
+This page shows the shortest way to check a website. You need Node.js 18 or later.
+
+<Steps>
+  <Step title="Run the check">
+    Run the tool with `npx`. Replace `example.com` with your own domain.
+
+    ```sh
+    npx aicw-visibility example.com
+    ```
+
+    If you do not add `https://`, the tool adds it for you.
+  </Step>
+  <Step title="Wait for the checks">
+    The tool prints each check as it finishes. A full run takes some time, because the tool waits about one second between checks to avoid rate limits.
+  </Step>
+  <Step title="Read the summary">
+    At the end, the tool prints `TOTAL SCORE` from 0 to 100 and a `GRADE`. Below that, an `ISSUES` list shows each check that did not pass.
+  </Step>
+  <Step title="Open the report">
+    The last lines show `Report saved to:` and an `Open with:` command. Run that command to open the HTML report in your browser.
+  </Step>
+</Steps>
+
+## If the browser is missing
+
+The JavaScript rendering check needs the Chrome browser that Puppeteer uses. If Chrome is missing, the tool prints a warning and skips that check. To install Chrome, run this command:
+
+```sh
+npx puppeteer browsers install chrome
+```
+
+To skip the browser check on purpose, add `--no-browser`:
+
+```sh
+npx aicw-visibility example.com --no-browser
+```
+
+## Check more than one page
+
+Put several URLs in one argument. Separate them with commas. All URLs must belong to the same root domain.
+
+```sh
+npx aicw-visibility "https://example.com/,https://example.com/about"
+```
+
+## Next steps
+
+- Read [Reading the report](/reading-the-report) to understand the output.
+- Read [Reading the score](/reading-the-score) to see how the score is built.
+- Read [What it checks](/what-it-checks) to fix the issues that the report lists.

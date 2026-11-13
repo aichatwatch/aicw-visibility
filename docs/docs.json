@@ -1,0 +1,83 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "name": "AICW Visibility",
+  "description": "AICW Visibility is a free tool that checks if AI crawlers, answer engines and public datasets can reach your website. It runs on your computer.",
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#667eea"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/aichatwatch/aicw-visibility"
+      },
+      {
+        "label": "Project page",
+        "href": "https://aichatwatch.com/aicw-visibility/"
+      }
+    ],
+    "primary": {
+      "label": "Install",
+      "href": "/install"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/aichatwatch"
+    },
+    "links": [
+      {
+        "header": "AI Chat Watch",
+        "items": [
+          {
+            "label": "Website",
+            "href": "https://aichatwatch.com"
+          }
+        ]
+      },
+      {
+        "header": "Privacy",
+        "items": [
+          {
+            "label": "Privacy policy",
+            "href": "https://aichatwatch.com/privacy/"
+          }
+        ]
+      }
+    ]
+  },
+  "contextual": {
+    "options": ["copy", "view", "chatgpt", "claude", "mcp"]
+  },
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get started",
+        "pages": ["index", "quickstart", "install"]
+      },
+      {
+        "group": "Guides",
+        "pages": [
+          "reading-the-report",
+          "reading-the-score",
+          "javascript-rendering",
+          "mcp-server"
+        ]
+      },
+      {
+        "group": "Reference",
+        "pages": [
+          "cli",
+          "what-it-checks",
+          "ai-crawlers",
+          "data-and-privacy"
+        ]
+      },
+      {
+        "group": "Help",
+        "pages": ["troubleshooting", "contributing"]
+      }
+    ]
+  }
+}

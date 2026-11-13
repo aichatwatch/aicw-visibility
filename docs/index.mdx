@@ -1,0 +1,47 @@
+---
+title: "AICW Visibility"
+description: "AICW Visibility checks if AI crawlers, answer engines and public datasets can reach your website."
+sidebarTitle: "Overview"
+---
+
+AICW Visibility is a free, open-source tool from AI Chat Watch (AICW). It checks how visible your website is to AI systems. It runs on your computer. It is released under the MIT license.
+
+A crawler is a program that visits web pages and reads them. AI companies run crawlers to train models, to build search indexes, and to fetch pages when a user asks a question. If your site blocks these crawlers, AI products cannot read your pages.
+
+## What the tool does
+
+When you run a check, the tool does these things:
+
+- It reads your `robots.txt` file, your sitemap, and your `llms.txt` file.
+- It requests your page with the user-agent names of 20 AI crawlers. A user-agent is the name that a program sends to a web server.
+- It checks HTTP headers, meta tags, JSON-LD data, and HTML structure.
+- It compares the text in your raw HTML with the text that a browser shows. This is the JavaScript rendering check.
+- It looks for your domain in Common Crawl, Wikipedia, Stack Overflow, and Reddit.
+- It gives a score from 0 to 100 and a letter grade.
+- It writes an HTML report and a JSON file on your computer.
+
+## Start here
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" href="/quickstart">
+    Run your first check in a few minutes.
+  </Card>
+  <Card title="Install" href="/install">
+    Install the tool and the Chrome browser that it needs.
+  </Card>
+  <Card title="What it checks" href="/what-it-checks">
+    See every check, what it tests, and how to fix it.
+  </Card>
+  <Card title="Data and privacy" href="/data-and-privacy">
+    See which hosts the tool contacts and what it sends.
+  </Card>
+</CardGroup>
+
+## Ways to run it
+
+- Use the command line. See the [CLI reference](/cli).
+- Let an AI agent run it. The package includes an MCP server. See [MCP server](/mcp-server).
+
+<Note>
+Only check websites that you own, or websites that you have permission to test. The tool sends many requests to the site that you check.
+</Note>

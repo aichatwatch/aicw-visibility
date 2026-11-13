@@ -1,0 +1,79 @@
+---
+title: "Troubleshooting"
+description: "Fixes for common AICW Visibility problems, and answers to common questions."
+---
+
+## Problems and fixes
+
+<AccordionGroup>
+  <Accordion title="The tool prints: Could not launch browser">
+    The Chrome browser that Puppeteer uses is missing. The tool skips the JavaScript rendering check and removes it from the score. To install the browser, run this command:
+
+    ```sh
+    npx puppeteer browsers install chrome
+    ```
+
+    Then run the check again. To skip the browser check on purpose, use `--no-browser`.
+  </Accordion>
+  <Accordion title="The tool prints: AICW_DATA_FOLDER path does not exist">
+    If you set `AICW_DATA_FOLDER`, the folder must exist before you run the tool. Create the folder, or change the variable. The MCP server creates its data folder by itself.
+  </Accordion>
+  <Accordion title="The tool prints: All URLs must belong to the same root domain">
+    You gave several URLs from different domains. Run one check for each domain. See [CLI reference](/cli#several-urls).
+  </Accordion>
+  <Accordion title="The tool prints: Invalid URL">
+    The tool could not read the URL. Check for typing errors. If you give several URLs, separate them with commas and put quotes around the whole argument.
+  </Accordion>
+  <Accordion title="The tool prints: Page not accessible">
+    The tool could not fetch the page with either user-agent. It skips that page and goes on with the next one. Open the page in a browser to see if it loads. Check if your server or firewall blocks the requests.
+  </Accordion>
+  <Accordion title="A check shows ERR">
+    The check ended with an error, for example a network error or a timeout. An error gives no points, but the maximum of the check still counts. Run the tool again. If the error stays, read the `Details` text of the check and the log file in `logs/<date>/aicw-visibility.log` in your data folder.
+  </Accordion>
+  <Accordion title="The Google, Bing or Brave check fails">
+    Search engines often block automated requests with a CAPTCHA. The check then cannot decide. The failure does not tell you if your site is indexed. Check your index status in the tools of each search engine. These checks are off by default.
+  </Accordion>
+  <Accordion title="A crawler shows as blocked, but my robots.txt looks fine">
+    The tool reads `robots.txt` with a simple parser. It treats an empty `Disallow:` line like `Disallow: /`, unless an `Allow: /` line follows. It also uses the rules for `*`, so a `Disallow: /` under `User-agent: *` blocks a crawler unless a later `Allow: /` rule applies to it. See [What it checks](/what-it-checks#config).
+
+    The AI Access checks can also fail because of your firewall or bot protection, even if `robots.txt` allows the crawler.
+  </Accordion>
+  <Accordion title="The JSON-LD check finds nothing, but my page has JSON-LD">
+    The tool reads only the top-level `@type` of each JSON-LD block. If the types are inside an `@graph` list, the tool does not count them. Put each schema in its own block.
+  </Accordion>
+  <Accordion title="The HTML Structure check says a meta tag is missing">
+    The tool expects the `name` or `property` attribute before the `content` attribute. If your tags use another order, the tool may not see them.
+  </Accordion>
+  <Accordion title="The check takes a long time">
+    This is normal. The tool waits about one second between checks to avoid rate limits, and it waits longer for search engines. The tool also tests 20 crawlers and queries public sources. Use `--no-browser` to save some time.
+  </Accordion>
+  <Accordion title="The MCP tool times out">
+    The default time limit is 10 minutes. Set `timeoutMs` to a higher value. See [MCP server](/mcp-server).
+  </Accordion>
+</AccordionGroup>
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Does the tool change my website?">
+    No. It only requests pages and files from your site. It does not log in, post forms or change anything.
+  </Accordion>
+  <Accordion title="Is my data shared?">
+    The tool does not upload your report. It sends your host name or page address to a short list of public sources. See [Data and privacy](/data-and-privacy) for the exact list.
+  </Accordion>
+  <Accordion title="Do I need an account or an API key?">
+    No. The code has no setting for an account or an API key.
+  </Accordion>
+  <Accordion title="Can I check a site that I do not own?">
+    Only with permission. The tool asks you to confirm that you have the permissions to test the URL. It sends many requests to the site.
+  </Accordion>
+  <Accordion title="Why is my score low if I block AI training on purpose?">
+    The checks count blocked crawlers as lost points. Read the `ISSUES` list and decide which items you want to fix. See [Reading the score](/reading-the-score).
+  </Accordion>
+  <Accordion title="Can I check more than one page?">
+    Yes. Put several URLs of the same root domain in one argument, separated with commas. See [CLI reference](/cli#several-urls).
+  </Accordion>
+  <Accordion title="Where do I report a bug?">
+    Open an issue on [GitHub](https://github.com/aichatwatch/aicw-visibility/issues). For other contact, see [AI Chat Watch](https://aichatwatch.com/quote).
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,78 @@
+---
+title: "Data and privacy"
+description: "Which hosts AICW Visibility contacts, what it sends to each one, and which files it writes on your computer."
+---
+
+AICW Visibility runs on your computer. It has no server of its own. This page lists every host that the code contacts. It is based on the source code of version 0.1.2.
+
+## What stays on your computer
+
+- The tool writes its report, its JSON data and its log to your data folder. See [CLI reference](/cli#where-the-files-go).
+- The tool does not upload the report or the log.
+- The code has no analytics, no account and no sign-in. It does not call any host of AI Chat Watch (AICW).
+
+## Hosts that the tool contacts
+
+The tool makes all its web requests with one function. These are all the hosts that the code requests.
+
+### The site that you check
+
+The tool sends requests to your site. This is the purpose of the tool. The requests are:
+
+- `/robots.txt`, `/sitemap.xml` and `/llms.txt` on each host name.
+- The homepage and each page that you give, with a desktop user-agent and with a mobile user-agent.
+- The homepage with the user-agent of each of the 20 [AI crawlers](/ai-crawlers).
+- One request to the homepage to measure the time to first byte.
+- A page load in headless Chrome, unless you use `--no-browser`.
+
+Your server logs show these requests.
+
+### Public sources
+
+These checks run by default. The tool sends only the data in the table.
+
+| Host | Check | Data that the tool sends |
+|---|---|---|
+| `index.commoncrawl.org` | Indexing: Common Crawl | A request for the list of indexes. Then, for each of up to 6 indexes, the domain pattern `*.` plus your host name plus `/*` for the server check, and the page address without protocol and tracking parameters for the page check. |
+| `en.wikipedia.org`, `de.wikipedia.org`, `fr.wikipedia.org`, `es.wikipedia.org`, `ja.wikipedia.org`, `zh.wikipedia.org` | Indexing: Wikipedia | Your host name as the search text for external links. |
+| `api.stackexchange.com` | Social: Stack Overflow | Your host name as the search text. |
+| `www.reddit.com` | Social: Reddit | A search for your host name. |
+
+The page address that the tool sends to Common Crawl includes the path and the query parameters of the page, except tracking parameters. These start with `utm_`, `fbclid`, `gclid`, `mc_`, `_ga` or `ref`.
+
+The requests to Wikipedia and Reddit include a user-agent that names `AICW-Visibility-Check` and `https://aichatwatch.com`. Other requests use a browser-like user-agent.
+
+### Optional hosts
+
+These hosts get requests only if you set `AICW_ENABLE_SEARCH_ENGINE_CHECKS=true` (or `enableSearchEngineChecks` in the MCP tool).
+
+| Host | Check | Data that the tool sends |
+|---|---|---|
+| `www.google.com` | Indexing: Google | A search for `site:` and your host name. |
+| `www.bing.com` | Indexing: Bing | The same. |
+| `search.brave.com` | Indexing: Brave | The same. |
+
+### Not contacted
+
+The code has checks for Hacker News (`hn.algolia.com`) and for Semantic Scholar (`api.semanticscholar.org`). These checks are turned off in this version. The tool does not contact these hosts.
+
+## Other network use
+
+- `npx` and `npm` download the package from the npm registry when you install or run it.
+- The command `npx puppeteer browsers install chrome` downloads the Chrome browser. This is a Puppeteer command, not a command of this tool.
+- When headless Chrome loads your page, your page may load other hosts, for example for fonts or scripts. Those requests come from your own page.
+- The report and the todo items contain links to outside tools, such as Google Search Console and PageSpeed Insights. The tool does not open these links. Your browser opens them only if you click.
+
+## What the sources can see
+
+The hosts above receive your requests. They can see the host name or address that you check and the IP address of your computer. Read the privacy policy of each service for details.
+
+The tool has no flag that turns off the public checks. If you cannot send your host name to these sources, do not run the tool. Only the search engine checks are optional.
+
+## Reports contain your results
+
+The HTML and JSON files contain the host name and the check results. Do not share them if you do not want others to see this information.
+
+## Questions
+
+For tool bugs and questions, open an issue on [GitHub](https://github.com/aichatwatch/aicw-visibility/issues). For other contact, see [AI Chat Watch](https://aichatwatch.com/quote). The privacy policy of AI Chat Watch is at [aichatwatch.com/privacy](https://aichatwatch.com/privacy/).

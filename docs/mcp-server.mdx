@@ -1,0 +1,67 @@
+---
+title: "MCP server"
+description: "Let an AI agent run AICW Visibility with the check_visibility tool of the aicw-visibility-mcp server."
+---
+
+MCP is the Model Context Protocol. It is a standard way for an AI agent to call tools. The package includes an MCP server that runs on your computer and talks to the agent over standard input and output (stdio).
+
+The server has one tool, `check_visibility`. It runs the same checker as the command line and returns the terminal output plus the path of the generated report.
+
+## Start the server
+
+This command starts the server:
+
+```sh
+npx --yes --package aicw-visibility aicw-visibility-mcp
+```
+
+You do not run this command yourself in normal use. Your MCP client starts it.
+
+## Add the server to your client
+
+Add this entry to the MCP settings of your client:
+
+```json
+{
+  "mcpServers": {
+    "aicw-visibility": {
+      "command": "npx",
+      "args": ["--yes", "--package", "aicw-visibility", "aicw-visibility-mcp"]
+    }
+  }
+}
+```
+
+The place of the settings file depends on your client. Read the documentation of your client.
+
+## The check_visibility tool
+
+| Input | Type | Required | What it does |
+|---|---|---|---|
+| `url` | text | Yes | The website URL or domain to check, for example `example.com` or `https://example.com`. |
+| `noBrowser` | true or false | No | If `true`, the tool skips the JavaScript rendering check and leaves it out of the score. |
+| `dataFolder` | text | No | The folder for the output files. The default is `~/.aicw-visibility-mcp`. |
+| `enableSearchEngineChecks` | true or false | No | If `true`, the tool runs the Google, Bing and Brave checks. The CAPTCHA of a search engine can block them. |
+| `timeoutMs` | whole number | No | The time limit in milliseconds. The default is `600000`, which is 10 minutes. |
+
+The server creates the data folder if it does not exist. If you do not set `enableSearchEngineChecks`, the server uses the value of `AICW_ENABLE_SEARCH_ENGINE_CHECKS` from its own environment.
+
+## What the tool returns
+
+The answer is plain text. It has these parts:
+
+- The terminal output of the check, without color codes.
+- A `Data folder:` line.
+- A `Report path:` line, if the tool found the report path in the output.
+
+If the check ends with a non-zero exit code, or if it passes the time limit, the tool returns an error with the output so far. On a timeout, the server stops the check.
+
+## Notes
+
+- The server starts the checker as a separate process. The checker needs the Chrome browser of Puppeteer, unless `noBrowser` is `true`. See [Install](/install).
+- A check can take several minutes. Set `timeoutMs` higher if the site is slow or has many pages.
+- The server makes the same requests as the command line. See [Data and privacy](/data-and-privacy).
+
+<Warning>
+The tool sends many requests to the site that you check. Ask your agent to check only sites that you own, or sites that you have permission to test.
+</Warning>

@@ -9,7 +9,7 @@
   },
   "files": [
     "bin/",
-    "docs/",
+    "docs/imgs/",
     "dist/",
     "README.md",
     "LICENSE"

@@ -53,7 +53,7 @@ const QUESTIONS_FILE_NAME = 'questions.md';
 export function getUserDataDir(): string {
   // If AICW_DATA_FOLDER is set, use it directly as the complete path
   // Supports relative paths (resolved from cwd) and absolute paths
-  // Example: AICW_DATA_FOLDER=../aicw-data/aicw.io/data or AICW_DATA_FOLDER=/path/to/data
+  // Example: AICW_DATA_FOLDER=../aicw-data/example.com/data or AICW_DATA_FOLDER=/path/to/data
   if (process.env.AICW_DATA_FOLDER) {
     const customPath = process.env.AICW_DATA_FOLDER;
     // Always use path.resolve() to normalize the path (handles both absolute and relative, removes ..)
@@ -138,7 +138,7 @@ export function getUserProjectDir(projectName: string): string {
 /**
  * Normalize a website URL into a simple domain name for directory naming
  * Examples:
- *   https://www.aicw.io -> aicw.io
+ *   https://www.example.com -> example.com
  *   http://example.com/path -> example.com
  *   www.test.org -> test.org
  */

@@ -108,7 +108,7 @@ export abstract class BaseSearchIndexingCheck extends BaseVisibilityCheck {
    */
   private createResult(indexed: boolean, details: string): VisibilityCheckResult {
     return {
-      score: indexed ? 10 : 0,
+      score: indexed ? this.maxScore : 0,
       maxScore: this.maxScore,
       passed: indexed,
       details,
