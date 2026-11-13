@@ -23,6 +23,7 @@ export const AI_PRODUCTS: Readonly<Record<string, AIProduct>> = {
   PERPLEXITY_AI: { name: 'Perplexity AI', url: 'https://perplexity.ai' },
   GROK: { name: 'Grok AI', url: 'https://x.ai' },
   META_LLAMA: { name: 'Meta Llama (foundation LLM model)', url: 'https://llama.meta.com' },
+  MISTRAL_LE_CHAT: { name: 'Mistral Le Chat', url: 'https://chat.mistral.ai' },
   DEEPSEEK: { name: 'DeepSeek', url: 'https://deepseek.com' },
   DUCKDUCKGO: { name: 'DuckDuckGo', url: 'https://duckduckgo.com' }
 };
@@ -225,7 +226,7 @@ export const AI_USER_AGENTS: AIBotDefinition[] = [
     user_agent: 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; MistralAI-User/1.0; +https://docs.mistral.ai/robots)',
     description: 'primary user agent used by Mistral when browsing the web.',
     tags: [CRAWLER_BOT_CLASSIFICATION_TAGS.AI_USER_INTERACTION],
-    related_ai_products: [AI_PRODUCTS.META_LLAMA.name],
+    related_ai_products: [AI_PRODUCTS.MISTRAL_LE_CHAT.name],
   },
   // END
   // BEGIN - DuckDuckGO https://duckduckgo.com/duckduckgo-help-pages/results/duckassistbot
